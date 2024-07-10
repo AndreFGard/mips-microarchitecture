@@ -48,3 +48,31 @@ end
     #70 $finish;
   end
 endmodule
+
+////////// ALU arithmetic logic unit
+module ttb;
+  reg clk = 0;
+  
+  reg [31:0] a = 30;
+  reg [31:0] b = 21;
+  reg [31:0] result;
+  reg [1:0] aluop;
+  
+  ALU ar(a,b,aluop,result);
+  initial forever #5 clk = ~clk;
+initial begin 
+	
+    #5 aluop = 2'b00;
+    #5 aluop = 2'b01;
+end
+
+ 
+  initial forever begin
+    #5 $display("a %d b %d resul %d", a, b, result);
+  end
+  
+ 
+  initial begin
+    #70 $finish;
+  end
+endmodule

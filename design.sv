@@ -16,3 +16,13 @@ module pc(input [4:0] next_instr, input clk, output reg [4:0] curr_instr );
     curr_instr = next_instr;
   end
 endmodule
+
+
+module ALU(input [31:0] a, input [31:0] b, input [1:0] aluop, output [31:0] aluResult);
+assign aluResult = (aluop == 2'b00) ? (a + b) : 
+                (aluop == 2'b01) ? (a - b) :   
+  				(aluop == 2'b10) ? (a & b) :   // CODE THIS LATER (look at funct)
+                (aluop == 2'b11) ? (a | b) :  
+                4'b0000;                       
+
+endmodule
