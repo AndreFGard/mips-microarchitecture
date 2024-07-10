@@ -1,0 +1,24 @@
+module instruction_memory(
+  	input wire [4:0] A,        
+    output reg [31:0] RD       
+);
+
+ 	reg [7:0] memoria [31:0];  // Declaração da memória de instruções
+
+    // Inicialização da memória com valores arbitrários (exemplo)
+    initial begin
+        memoria[0] = 8'b00000001;
+        memoria[1] = 8'b00000010;
+        memoria[2] = 8'b00000011;
+      	memoria[3] = 8'b00000111;
+    end
+
+  always @(A) begin
+        // Leitura dos 32 bits da memória baseado no endereço A
+        RD[7:0]   = memoria[A];
+        RD[15:8]  = memoria[A+1];
+        RD[23:16] = memoria[A+2];
+        RD[31:24] = memoria[A+3];
+    end
+
+endmodule
