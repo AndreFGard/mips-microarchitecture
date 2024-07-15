@@ -1,4 +1,5 @@
 module tb_ALU_decoder;
+    //also work as a  tb_ALU
     // Inputs
     reg [1:0] aluop;
     reg [5:0] funct;
@@ -13,39 +14,55 @@ module tb_ALU_decoder;
         .aluControl(aluControl)
     );
 
-    // Parameters for expected results
+    reg [31:0] a = 54;
+    reg [31:0] b = 23;
+    reg zero;
+    reg [31:0] aluresult;
+    ALU ttb_alu (aluControl,a,b,zero,aluresult);
+
     parameter ADD = 3'b010;
     parameter SUBT = 3'b110;
     parameter AND = 3'b000;
     parameter OR = 3'b001;
     parameter SETLESSTHAN = 3'b111;
 
-    // Test cases
+
     initial begin
-        // Initialize inputs
+
         aluop = 2'b00; funct = 6'b000000; #10;  // ADD (default)
-        $display("aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
+        $display("ADD: aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
+        $display("a, %d b  %d= %d", a,b,aluresult);
         
         aluop = 2'b01; funct = 6'b000000; #10;  // SUBT (default)
-        $display("aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
-        
+        $display("SUBT aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
+        $display("a, %d b  %d= %d", a,b,aluresult);
+                
         aluop = 2'b10; funct = 6'b100000; #10;  // ADD
-        $display("aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
-        
+        $display("ADDf aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
+        $display("a, %d b  %d= %d", a,b,aluresult);
+                
         aluop = 2'b10; funct = 6'b100010; #10;  // SUBT
-        $display("aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
-        
+        $display("SUBTf aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
+        $display("a, %d b  %d= %d", a,b,aluresult);
+                
         aluop = 2'b10; funct = 6'b100100; #10;  // AND
-        $display("aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
-        
+        $display("ANDf aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
+        $display("a, %d b  %d= %d", a,b,aluresult);
+                
         aluop = 2'b10; funct = 6'b100101; #10;  // OR
-        $display("aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
-        
+        $display("ORf aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
+        $display("a, %d b  %d= %d", a,b,aluresult);
+               
         aluop = 2'b10; funct = 6'b101010; #10;  // SETLESSTHAN
-        $display("aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
+        $display("SLTf aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
+        $display("a%d, b  %d= %d", a,b,aluresult);
         
-        // Additional test cases can be added here
+        a = 23; b = 34;
+        aluop = 2'b10; funct = 6'b101010; #10;  // SETLESSTHAN
         
-        $stop;  // End simulation
+        $display("SLTf aluop: %b, funct: %b, aluControl: %b", aluop, funct, aluControl);
+        $display("a%d, b  %d= %d", a,b,aluresult);
+                
+        $stop;  
     end
 endmodule
