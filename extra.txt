@@ -1,0 +1,41 @@
+Código assembly/mips:
+
+.text
+.globl main
+
+main:
+    addi $a0, $zero, 10    # Carrega o valor 10 em $a0
+    addi $t0, $zero, 1     # Inicializa o contador com 1
+
+loop:
+    beq $t0, $a0, end_loop # Se $t0 for igual a $a0, sai do loop
+    addi $t0, $t0, 1       # Incrementa $t0
+    j loop                 # Salta de volta para o início do loop
+
+end_loop:
+    nop                    # No Operation (placeholder)
+
+
+
+
+binário:
+
+00100000000001000000000000001010   # addi $a0, $zero, 10
+00100000000010000000000000000001   # addi $t0, $zero, 1
+00010001000001000000000000000011   # beq $t0, $a0, 3
+00100001000010000000000000000001   # addi $t0, $t0, 1
+00001000000000000000000000000001   # j loop
+00000000000000000000000000000000   # nop
+
+
+
+python: 
+def increment_until_x(x):
+    counter = 1  # Inicializa o contador com 1
+    while counter != x:  # Enquanto o contador for diferente de x
+        counter += 1  # Incrementa o contador
+    return counter
+
+x = 10
+result = increment_until_x(x)
+
