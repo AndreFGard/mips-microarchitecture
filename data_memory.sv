@@ -1,6 +1,6 @@
 module data_memory (
   input clk,
-  input [4:0] A,
+  input [31:0] A,
   input [31:0] WD,
   input WE,
   output reg [31:0] RD
