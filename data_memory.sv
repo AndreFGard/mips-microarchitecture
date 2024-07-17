@@ -5,7 +5,7 @@ module data_memory (
   input WE,
   output reg [31:0] RD
 );
-  reg [31:0] Mem [31:0]; // temporário (substituir pelo módulo q manipula a memória DE DADOS)
+  reg [31:0] Mem [31:0];
   
   always @ (posedge clk) begin
     if (WE)
