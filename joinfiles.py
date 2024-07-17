@@ -1,6 +1,6 @@
 import os
 
-forbiddenlist = ["testbench", 'ttb', "LIC"]
+forbiddenlist = ["testbench", 'ttb', "LIC", "py", "txt", ".md"]
 filelist = os.listdir()
 
 destination = "dest.sv"
