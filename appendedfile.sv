@@ -222,7 +222,7 @@ module register_file(a1, a2, a3, WD3, WE3, clk, RD1, RD2);
   end
  
 endmodule
-# mips-architecturemodule alu_scr_mux(
+module alu_scr_mux(
   input ALUSrc,
   input [31:0] RD2,
   input [31:0] SignImm,
