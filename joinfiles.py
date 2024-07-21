@@ -1,10 +1,10 @@
 import os
 
-forbiddenlist = ["testbench", 'ttb', "LIC", "py", "txt", ".md"]
+forbiddenlist = ["testbench", "masterfile","appendedfile", 'ttb', "LIC", "py", "txt", ".md", ".vpp"]
 filelist = os.listdir()
 
 destination = "dest.sv"
-dest = open("destination.sv", "w")
+dest = open("appendedfile.sv", "w")
 
 
 for fname in filelist:
