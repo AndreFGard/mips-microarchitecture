@@ -74,10 +74,10 @@ module instruction_memory(
 
   always @(A) begin
         // Leitura dos 32 bits da memória baseado no endereço A
-        RD[7:0]   = memoria[A];
-        RD[15:8]  = memoria[A+1];
-        RD[23:16] = memoria[A+2];
-        RD[31:24] = memoria[A+3];
+        RD[7:0]   = memoria[A+3];
+        RD[15:8]  = memoria[A+2];
+        RD[23:16] = memoria[A+1];
+        RD[31:24] = memoria[A];
   end
 
 endmodule
