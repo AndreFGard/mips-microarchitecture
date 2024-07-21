@@ -23,7 +23,7 @@ module ttB;
   
   wire [5:0] opw;
   wire [4:0] A1w;
-  wire [4:0] instr_20_16; wire [4:0] instr_15_11; wire [4:0] writeregw
+  wire [4:0] instr_20_16; wire [4:0] instr_15_11; wire [4:0] writeregw;
   wire regdstw;
   reg_dst_mux reg_dst_muxt(regdstw, instr_20_16, instr_15_11, writeregw);
   
