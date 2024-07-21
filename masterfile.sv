@@ -10,7 +10,7 @@ module ttB;
     // instruction are dealt withj here
     wire [INSTRSIZE:0] PCcommaw; wire [INSTRSIZE:0] PCBranchw; wire [INSTRSIZE:0] PCplus4w; wire [INSTRSIZE:0] PCw;
     reg [INSTRSIZE:0] SignImmw = 0;
-    pc_multiplexer pc_multiplexertb(PCplus4w, PCBranchw, PCSrcw, PCcommaw);
+    pc_mux pc_multiplexertb(PCplus4w, PCBranchw, PCSrcw, PCcommaw);
     pc pctb (PCcommaw, clk, PCw );
     pcplus4 pcplus4tb (PCw, PCplus4w);
     pc_branch pc_brancht (SignImmw, PCplus4w, PCBranchw);
@@ -19,6 +19,7 @@ module ttB;
 
     reg [31:0] Instrw;
     instruction_memory instruction_memorytb(PCw, Instrw);
+
 
     //instruction wires
     wire [5:0] instr_31_26; wire [4:0] instr_25_21; wire [4:0] instr_20_16; 
@@ -41,8 +42,9 @@ module ttB;
 
     initial forever #5 clk = ~clk;
 
-        always @(negedge clk) begin
-      $display("PCw (curr): %d, plus4w %d, PCBranchw %d", PCw, PCplus4w, PCBranchw);
+    initial forever begin
+      #5 $display("PCw (curr): %d, plus4w %d, PCBranchw %d", PCw, PCplus4w, PCBranchw);
+      $display("%b", Instrw);
       end
 
 

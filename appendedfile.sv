@@ -1,6 +1,26 @@
+module alu_scr_mux(
+  input ALUSrc,
+  input [31:0] RD2,
+  input [31:0] SignImm,
+  output [31:0] SrcB
+);
+
+ assign SrcB = ALUSrc ? SignImm : RD2;
+
+endmodule;
+module pc_branch(
+  
+  // juntou <<2 e pcbranch
+  input [4:0] SignImm,
+  input [4:0] PCplus4,
+  output [4:0] result
+);
+  
+  assign result = PCplus4 + SignImm*4; 
+endmodule;
 module data_memory (
   input clk,
-  input [4:0] A,
+  input [31:0] A,
   input [31:0] WD,
   input WE,
   output reg [31:0] RD
@@ -14,127 +34,6 @@ module data_memory (
       RD <= Mem[A];
   end
 endmodule;
-module reg_dst_mux(
-  input RegDst,
-  input [4:0] inst_20_16,
-  input [4:0] inst_15_11,
-  output [4:0] WriteReg
-);
-
- assign WriteReg = RegDst ? inst_15_11 : inst_20_16;
-
-endmodule;
-module pc_src_mux (
-  input PCSrc,
-  input [4:0] PCPlus4,
-  input [4:0] PCBranch,
-  output [4:0] Result
-);
-
- assign Result = PCSrc ? PCBranch : PCPlus4;
-  
-endmodule;
-module Sign_Extend(
-  input [15:0] instr,
-  output reg [31:0] SignImm
-);
-  
-  always @* begin
-    if (instr[15] == 1'b0)
-      SignImm = {16'b0, instr}; 
-    else
-      SignImm = {16'b1111111111111111, instr};
-  end
-  
-endmodule;
-module pcplus4(
-  input [INSTRSIZE:0]last_instr, 
-  output [INSTRSIZE:0] next_instr
-);
-  parameter INSTRSIZE = 4;
-  
-  assign next_instr = last_instr + INSTRSIZE;
-
-endmodule
-
-
-module pc_multiplexer(
-  input [4:0] plus4_instr, 
-  input [4:0] branch, 
-  input use_branch, 
-  output [4:0] next_instr 
-);
-
-  assign next_instr = (use_branch) ? branch : plus4_instr;
-endmodule
-
-
-module pc(
-  input [4:0] next_instr, 
-  input clk, 
-  output reg [4:0] curr_instr 
-);
-  initial curr_instr = 0;
-
-  always @(posedge clk) begin
-    curr_instr = next_instr;
-  end
-
-endmodule
-
-
-module ALU_decoder(
-  input [1:0] aluop, 
-  input [5:0] funct, 
-  output [2:0] aluControl
-);
-
-  parameter ADD = 3'b010; 
-  parameter SUBT = 3'b110; 
-  parameter AND = 3'b000; 
-  parameter OR = 3'b001; 
-  parameter SETLESSTHAN = 3'b111;
-  
-  parameter FADD = 6'b100000; 
-  parameter FSUBT = 6'b100010; 
-  parameter FAND = 6'b100100; 
-  parameter FOR = 6'b100101; 
-  parameter FSLT = 6'b101010;
-  
-  assign aluControl = (aluop == 2'b00) ? (ADD) : 
-                      (aluop == 2'b01) ? (SUBT) :   
-                            (funct == FADD ) ? (ADD):
-                            (funct == FSUBT ) ? (SUBT):
-                            (funct == FOR ) ? (OR) :
-                            (funct == FAND) ? (AND) : 
-                            (funct == FSLT ) ? (SETLESSTHAN):
-                            3'b000;
-         
-endmodule
-
-module ALU(
-  input [2:0] aluControl, 
-  input [31:0] srcA, 
-  input [31:0] srcB, 
-  output zero, 
-  output [31:0] aluResult 
-);
-
-  parameter ADD = 3'b010; 
-  parameter SUBT = 3'b110; 
-  parameter AND = 3'b000; 
-  parameter OR = 3'b001; 
-  parameter SETLESSTHAN = 3'b111;
-  
-  assign aluResult = (aluControl == ADD) ? (srcA + srcB): 
-                     (aluControl == SUBT) ? (srcA - srcB): 
-                     (aluControl == AND) ? (srcA && srcB): 
-                     (aluControl == OR) ? (srcA || srcB): 
-                     (aluControl == SETLESSTHAN) ? (srcA < srcB): 32'd0;
-  
-  assign zero = (aluResult == 0) ? 1 : 0;
-  
-endmodule
 module instruction_memory(
   	input [4:0] A,        
     output reg [31:0] RD       
@@ -192,47 +91,29 @@ module mem_to_reg_mux(
  assign Result = MemtoReg ? ReadData : ALUResult;
 
 endmodule;
-module register_file(a1, a2, a3, WD3, WE3, clk, RD1, RD2);
-
-  input [4:0] a1; // data source
-  input [4:0] a2; // data source
-  
-  input [4:0] a3; // write
-  input [31:0] WD3; // write data
-  
-  input WE3; // write enable 
-  input clk;
- 
-  output [31:0] RD1,RD2; // read data
- 
-  integer i;
-  reg [31:0] registers [0:31];
-  
-  assign RD1 = (a1==0) ? 32'd0 : registers[a1];
-  assign RD2 = (a2==0) ? 32'd0 : registers[a2];
-  
-  initial begin
-    for(i=0; i<32; i=i+1) 
-     registers[i] <= 32'd0;
-  end
-  
-  always @(posedge clk) begin
-    if (WE3) begin
-      registers[a3] <= (a3==0) ? 32'd0 : WD3;
-    end
-  end
- 
-endmodule
-module alu_scr_mux(
-  input ALUSrc,
-  input [31:0] RD2,
-  input [31:0] SignImm,
-  output [31:0] SrcB
+module ALU(
+  input [2:0] aluControl, 
+  input [31:0] srcA, 
+  input [31:0] srcB, 
+  output zero, 
+  output [31:0] aluResult 
 );
 
- assign SrcB = ALUSrc ? SignImm : RD2;
-
-endmodule;
+  parameter ADD = 3'b010; 
+  parameter SUBT = 3'b110; 
+  parameter AND = 3'b000; 
+  parameter OR = 3'b001; 
+  parameter SETLESSTHAN = 3'b111;
+  
+  assign aluResult = (aluControl == ADD) ? (srcA + srcB): 
+                     (aluControl == SUBT) ? (srcA - srcB): 
+                     (aluControl == AND) ? (srcA && srcB): 
+                     (aluControl == OR) ? (srcA || srcB): 
+                     (aluControl == SETLESSTHAN) ? (srcA < srcB): 32'd0;
+  
+  assign zero = (aluResult == 0) ? 1 : 0;
+  
+endmodule
 module control_unit(
     input [5:0] op,
     input [5:0] funct,
@@ -292,6 +173,28 @@ module control_unit(
                 regdst = 1;      
                 regwrite = 1;
             end
+
+            // ADDI
+            6'b001000: begin
+                mentoreg = 0;
+                menwrite = 0;
+                branch = 0;
+                aluop = 2'b00; 
+                alusrc = 1;
+                regdst = 0;      
+                regwrite = 1;
+            end
+
+            // BEQ
+            6'b000100: begin
+                mentoreg = 0;
+                menwrite = 0;
+                branch = 1;
+                aluop = 2'b01; 
+                alusrc = 0;
+                regdst = 0;      
+                regwrite = 0;
+            end
         endcase
     end
 
@@ -319,13 +222,98 @@ module control_unit(
                             3'b000
                         ) : 3'b000;
 endmodule
-module pc_branch(
+module register_file(a1, a2, a3, WD3, WE3, clk, RD1, RD2);
+
+  input [4:0] a1; // data source
+  input [4:0] a2; // data source
   
-  // juntou <<2 e pcbranch
-  input [4:0] SignImm,
-  input [4:0] PCplus4,
-  output [4:0] result
+  input [4:0] a3; // write
+  input [31:0] WD3; // write data
+  
+  input WE3; // write enable 
+  input clk;
+ 
+  output [31:0] RD1,RD2; // read data
+ 
+  integer i;
+  reg [31:0] registers [0:31];
+  
+  assign RD1 = (a1==0) ? 32'd0 : registers[a1];
+  assign RD2 = (a2==0) ? 32'd0 : registers[a2];
+  
+  initial begin
+    for(i=0; i<32; i=i+1) 
+     registers[i] <= 32'd0;
+  end
+  
+  always @(posedge clk) begin
+    if (WE3) begin
+      registers[a3] <= (a3==0) ? 32'd0 : WD3;
+    end
+  end
+ 
+endmodule
+
+module pc_src_mux (
+  input PCSrc,
+  input [4:0] PCPlus4,
+  input [4:0] PCBranch,
+  output [4:0] Result
+);
+
+ assign Result = PCSrc ? PCBranch : PCPlus4;
+  
+endmodule;
+module reg_dst_mux(
+  input RegDst,
+  input [4:0] inst_20_16,
+  input [4:0] inst_15_11,
+  output [4:0] WriteReg
+);
+
+ assign WriteReg = RegDst ? inst_15_11 : inst_20_16;
+
+endmodule;
+module Sign_Extend(
+  input [15:0] instr,
+  output reg [31:0] SignImm
 );
   
-  assign result = PCplus4 + SignImm*4; 
+  always @* begin
+    if (instr[15] == 1'b0)
+      SignImm = {16'b0, instr}; 
+    else
+      SignImm = {16'b1111111111111111, instr};
+  end
+  
 endmodule;
+module pc(
+  input [4:0] next_instr, 
+  input clk, 
+  output reg [4:0] curr_instr 
+);
+  initial curr_instr = 0;
+
+  always @(posedge clk) begin
+    curr_instr = next_instr;
+  end
+
+endmodule
+module pc_mux (
+  input [4:0] plus4_instr, 
+  input [4:0] branch, 
+  input use_branch, 
+  output [4:0] next_instr 
+);
+
+  assign next_instr = (use_branch) ? branch : plus4_instr;
+endmodule
+module pcplus4(
+  input [INSTRSIZE:0]last_instr, 
+  output [INSTRSIZE:0] next_instr
+);
+  parameter INSTRSIZE = 4;
+  
+  assign next_instr = last_instr + INSTRSIZE;
+
+endmodule
