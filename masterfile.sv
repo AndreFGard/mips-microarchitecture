@@ -23,7 +23,7 @@ module ttB;
 
     //instruction wires
     wire [5:0] instr_31_26; wire [4:0] instr_25_21; wire [4:0] instr_20_16; 
-    wire [4:0] instr_15_11; wire [15:0] isntr_15_0; wire [5:0] instr_5_0;
+  wire [4:0] instr_15_11; wire [15:0] instr_15_0; wire [5:0] instr_5_0;
 
     assign instr_31_26 = Instrw[31:26];
     assign instr_25_21 = Instrw[25:21];
@@ -38,8 +38,9 @@ module ttB;
     wire [31:0] resultw; //wire that comes from the ALU or the data memory //////////////ASSIGN ME PLS
     wire RegWriteCUw;
     wire [31:0] RD1w; wire [31:0] RD2w;
-    register_file register_filet(.a1(instr_25_21),.a2(instr_20_16),.a3(writeregw),.WD3(resultw),.WE3(RegWriteCUw),.RD1(RD1w),.RD2(RD2w));
-
+    register_file register_filet(.a1(instr_25_21),.a2(instr_20_16),.a3(writeregw),.WD3(resultw),.WE3(RegWriteCUw),.RD1(RD1w),.RD2(RD2w),.clk(clk));
+  
+  wire memwritew;wire memtoreg;wire branchw; wire alusrcw; wire regwritew; wire [2:0] alucontrolw;
     initial forever #5 clk = ~clk;
 
     initial forever begin
