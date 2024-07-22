@@ -51,6 +51,9 @@ module ttB;
     initial forever begin
       #5 $display("PCw (curr): %d, plus4w %d, PCBranchw %d", PCw, PCplus4w, PCBranchw);
       $display("%b", Instrw);
+      
+      //control unit tests
+      $display("memtoreg %d  memwrite %d branch %d alusrc %d regdst %d regwrite %d alucontrol %b", memtoregCUw, memwritewCU,branchCUw,alusrcCUw,regdstw,RegWriteCUw,alucontrolCUw);
       end
 
 
