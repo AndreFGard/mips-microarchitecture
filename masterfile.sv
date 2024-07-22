@@ -39,10 +39,13 @@ module ttB;
     wire RegWriteCUw;
     wire [31:0] RD1w; wire [31:0] RD2w;
     register_file register_filet(.a1(instr_25_21),.a2(instr_20_16),.a3(writeregw),.WD3(resultw),.WE3(RegWriteCUw),.RD1(RD1w),.RD2(RD2w),.clk(clk));
+   
   
-  control_unit(instr_31_26, instr_5_0,memtoregw,memwritew,branchw,alusrcw,regdstw,regwritew,alucontrolw);
+  wire memwritewCU;wire memtoregCUw;wire branchCUw; wire alusrcCUw; wire [2:0] alucontrolCUw;
   
-  wire memwritewCU;wire memtoregCUw;wire branchw; wire alusrcCUw; wire [2:0] alucontrolCUw;
+  control_unit control_unitt(instr_31_26, instr_5_0,memtoregCUw,memwritewCU,branchCUw,alusrcCUw,regdstw,RegWriteCUw,alucontrolCUw);
+  
+
     initial forever #5 clk = ~clk;
 
     initial forever begin
