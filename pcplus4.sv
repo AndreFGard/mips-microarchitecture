@@ -4,6 +4,6 @@ module pcplus4(
 );
   parameter INSTRSIZE = 31;
   
-  assign next_instr = last_instr + INSTRSIZE;
+  assign next_instr = last_instr + 4;
 
 endmodule
