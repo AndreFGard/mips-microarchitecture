@@ -44,8 +44,21 @@ module ttB;
   wire memwritewCU;wire memtoregCUw;wire branchCUw; wire alusrcCUw; wire [2:0] alucontrolCUw;
   
   control_unit control_unitt(instr_31_26, instr_5_0,memtoregCUw,memwritewCU,branchCUw,alusrcCUw,regdstw,RegWriteCUw,alucontrolCUw);
-  
 
+  wire [31:0] SrcBw;
+
+  alu_scr_mux alu_scr_muxt (.ALUSrc(alusrcCUw), .RD2(RD2w), .SignImm(SignImmw), .SrcB(SrcBw));
+
+  wire zerow;
+  wire [31:0] aluResultw;
+  ALU ALUt (.aluControl(alucontrolCUw), .srcA(RD1w), .srcB(SrcBw), .zero(zerow), .aluResult(aluResultw));
+
+  assign PCSrcw = branchCUw && zerow;
+
+  wire [31:0] ReadDataw;
+  mem_to_reg mem_to_regt (.MemtoReg(memtoregCUw), .aluResult(aluResultw), .ReadData(ReadDataw), .Result(resultw)); //Atenção ao nome ReadDataw
+
+ 
     initial forever #5 clk = ~clk;
 
     initial forever begin
