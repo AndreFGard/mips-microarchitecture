@@ -63,7 +63,7 @@ module ttB;
     initial forever #5 clk = ~clk;
 
     initial forever begin
-      #5 $display("PCw (curr): %d, plus4w %d, PCBranchw %d", PCw, PCplus4w, PCBranchw);
+      #5 $display("PCw (curr): %d, plus4w %d, PCBranchw %d PCSrcw %d", PCw, PCplus4w, PCBranchw, PCSrcw);
       $display("%b", Instrw);
       
       //control unit tests
