@@ -1,11 +1,11 @@
 module ttB;
     //joins all the components of the computer
-    parameter INSTRSIZE = 4;
+    parameter INSTRSIZE = 31;
     reg clk = 0;
   
 
     //CU wires
-    reg PCSrcw = 0;
+    wire PCSrcw = 0;
 
     // instruction are dealt withj here
     wire [INSTRSIZE:0] PCcommaw; wire [INSTRSIZE:0] PCBranchw; wire [INSTRSIZE:0] PCplus4w; wire [INSTRSIZE:0] PCw;
@@ -53,10 +53,11 @@ module ttB;
   wire [31:0] aluResultw;
   ALU ALUt (.aluControl(alucontrolCUw), .srcA(RD1w), .srcB(SrcBw), .zero(zerow), .aluResult(aluResultw));
 
-  assign PCSrcw = branchCUw && zerow;
+  wire PCSrcww; //doesnt work
+  assign PCSrcww = branchCUw && zerow;
 
   wire [31:0] ReadDataw;
-  mem_to_reg mem_to_regt (.MemtoReg(memtoregCUw), .aluResult(aluResultw), .ReadData(ReadDataw), .Result(resultw)); //Atenção ao nome ReadDataw
+  mem_to_reg_mux mem_to_regt (.MemtoReg(memtoregCUw), .ALUResult(aluResultw), .ReadData(ReadDataw), .Result(resultw)); //Atenção ao nome ReadDataw
 
  
     initial forever #5 clk = ~clk;
