@@ -5,7 +5,7 @@ module ttB;
   
 
     //CU wires
-    wire PCSrcw = 0;
+    wire PCSrcw;
 
     // instruction are dealt withj here
     wire [INSTRSIZE:0] PCcommaw; wire [INSTRSIZE:0] PCBranchw; wire [INSTRSIZE:0] PCplus4w; wire [INSTRSIZE:0] PCw;
@@ -53,8 +53,8 @@ module ttB;
   wire [31:0] aluResultw;
   ALU ALUt (.aluControl(alucontrolCUw), .srcA(RD1w), .srcB(SrcBw), .zero(zerow), .aluResult(aluResultw));
 
-  wire PCSrcww; //doesnt work
-  assign PCSrcww = branchCUw && zerow;
+
+  assign PCSrcw = branchCUw && zerow;
 
   wire [31:0] ReadDataw;
   mem_to_reg_mux mem_to_regt (.MemtoReg(memtoregCUw), .ALUResult(aluResultw), .ReadData(ReadDataw), .Result(resultw)); //Atenção ao nome ReadDataw
