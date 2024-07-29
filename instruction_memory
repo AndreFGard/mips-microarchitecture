@@ -2,7 +2,7 @@ module instruction_memory(
   	input [31:0] A,        
     output reg [31:0] RD       
 );
- 	  reg [7:0] memoria [31:0];  // Declaração da memória de instruções
+ 	  reg [7:0] memoria [64:0];  // Declaração da memória de instruções
 
     initial begin
       memoria[0] = 8'b00100000;  //addi
