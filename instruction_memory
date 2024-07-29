@@ -53,7 +53,7 @@ module instruction_memory(
       memoria[36] = 8'b00010000;  //beq
       memoria[37] = 8'b10100110;  //beq
       memoria[38] = 8'b00000000;  //beq
-      memoria[39] = 8'bb00000000;  //beq to the end of the program
+      memoria[39] = 8'b00000000;  //beq to the end of the program
 
       memoria[40] = 8'b00010000;  //beq
       memoria[41] = 8'b00000000;  //beq
