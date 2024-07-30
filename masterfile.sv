@@ -38,7 +38,6 @@ module ttB;
     wire [31:0] resultw; //wire that comes from the ALU or the data memory //////////////ASSIGN ME PLS
     wire RegWriteCUw;
     wire [31:0] RD1w; wire [31:0] RD2w;
-    register_file register_filet(.a1(instr_25_21),.a2(instr_20_16),.a3(writeregw),.WD3(resultw),.WE3(RegWriteCUw),.RD1(RD1w),.RD2(RD2w),.clk(clk));
    
   
   wire memwritewCU;wire memtoregCUw;wire branchCUw; wire alusrcCUw; wire [2:0] alucontrolCUw;
@@ -58,6 +57,7 @@ module ttB;
 
   wire [31:0] ReadDataw;
   mem_to_reg_mux mem_to_regt (.MemtoReg(memtoregCUw), .ALUResult(aluResultw), .ReadData(ReadDataw), .Result(resultw)); //Atenção ao nome ReadDataw
+  register_file register_filet(.a1(instr_25_21),.a2(instr_20_16),.a3(writeregw),.WD3(resultw),.WE3(RegWriteCUw),.RD1(RD1w),.RD2(RD2w),.clk(clk));
 
  
     initial forever #5 clk = ~clk;
@@ -66,9 +66,11 @@ module ttB;
       #5 $display("PCw (curr): %d, plus4w %d, PCBranchw %d PCSrcw %d", PCw, PCplus4w, PCBranchw, PCSrcw);
       $display("Instrucao: %b", Instrw);
       //$display("\treg a1:%b %d reg a2:%b %d, a3 %b %d", instr_25_21, register_filet.registers[instr_25_21],instr_20_16, register_filet.registers[1]);
-      $display("\t\tREG 1:%d |A3 %b| WE %b", register_filet.registers[5'b00001], writeregw, RegWriteCUw);
+      $display("\t\tREG 1:%d |A3 %b| WE %b| WD %d| aluresult %d", register_filet.registers[5'b00001], writeregw,RegWriteCUw, resultw,aluResultw);
       //control unit tests
-      $display("memtoreg %d  memwrite %d branch %d alusrc %d regdst %d regwrite %d alucontrol %b", memtoregCUw, memwritewCU,branchCUw,alusrcCUw,regdstw,RegWriteCUw,alucontrolCUw);
+      //$display("memtoreg %d  memwrite %d branch %d alusrc %d regdst %d regwrite %d alucontrol %b", memtoregCUw, memwritewCU,branchCUw,alusrcCUw,regdstw,RegWriteCUw,alucontrolCUw);
+      //alu tests
+      $display("alucontrol %b| aluA %d, aluB %d, aluResult %d, aluzero %b", ALUt.aluControl,ALUt.srcA,ALUt.srcB,ALUt.aluResult,ALUt.zero);
       end
 
 
