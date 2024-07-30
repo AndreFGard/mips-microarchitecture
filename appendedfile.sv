@@ -47,7 +47,7 @@ module instruction_memory(
       //  memoria[2] = 8'b00000000;  //addi
       //  memoria[3] = 8'b00001010;  //addi
       
-      // addi $t0, $zero, 5
+      // addi $t0, $zero, -3
       memoria[0] = 8'b00100000;  // addi
       memoria[1] = 8'b00000001;  // addi
       memoria[2] = 8'b11111111;  // addi
