@@ -9,10 +9,11 @@ module ttB;
 
     // instruction are dealt withj here
     wire [INSTRSIZE:0] PCcommaw; wire [INSTRSIZE:0] PCBranchw; wire [INSTRSIZE:0] PCplus4w; wire [INSTRSIZE:0] PCw;
-    reg [INSTRSIZE:0] SignImmw = 0;
+    wire [INSTRSIZE:0] SignImmw;
     pc_mux pc_multiplexertb(PCplus4w, PCBranchw, PCSrcw, PCcommaw);
     pc pctb (PCcommaw, clk, PCw );
     pcplus4 pcplus4tb (PCw, PCplus4w);
+    
     pc_branch pc_brancht (SignImmw, PCplus4w, PCBranchw);
 
 
@@ -34,6 +35,8 @@ module ttB;
 
     wire [4:0] writeregw; wire regdstw;
     reg_dst_mux reg_dst_muxt(regdstw, instr_20_16, instr_15_11, writeregw);
+
+    Sign_Extend Sign_Extendt (instr_15_0, SignImmw);
 
     wire [31:0] resultw; //wire that comes from the ALU or the data memory //////////////ASSIGN ME PLS
     wire RegWriteCUw;
@@ -63,14 +66,18 @@ module ttB;
     initial forever #5 clk = ~clk;
 
     initial forever begin
-      #5 $display("PCw (curr): %d, plus4w %d, PCBranchw %d PCSrcw %d", PCw, PCplus4w, PCBranchw, PCSrcw);
+
+      #5 $display("\nPCw (curr): %d, plus4w %d, PCBranchw %d PCSrcw %d", PCw, PCplus4w, PCBranchw, PCSrcw);
       $display("Instrucao: %b", Instrw);
-      //$display("\treg a1:%b %d reg a2:%b %d, a3 %b %d", instr_25_21, register_filet.registers[instr_25_21],instr_20_16, register_filet.registers[1]);
-      $display("\t\tREG 1:%d |A3 %b| WE %b| WD %d| aluresult %d", register_filet.registers[5'b00001], writeregw,RegWriteCUw, resultw,aluResultw);
+      
+      ///////REGFILE TESTS
+      //        $display("\tREG 1:%d |A3 %b| WE %b| WD %d| aluresult %d", register_filet.registers[5'b00001], writeregw,RegWriteCUw, resultw,aluResultw);
       //control unit tests
-      //$display("memtoreg %d  memwrite %d branch %d alusrc %d regdst %d regwrite %d alucontrol %b", memtoregCUw, memwritewCU,branchCUw,alusrcCUw,regdstw,RegWriteCUw,alucontrolCUw);
-      //alu tests
-      $display("alucontrol %b| aluA %d, aluB %d, aluResult %d, aluzero %b", ALUt.aluControl,ALUt.srcA,ALUt.srcB,ALUt.aluResult,ALUt.zero);
+      $display("memtoreg %d  memwrite %d branch %d alusrc %d regdst %d regwrite %d alucontrol %b", memtoregCUw, memwritewCU,branchCUw,alusrcCUw,regdstw,RegWriteCUw,alucontrolCUw);
+      
+      //////////////alu tests
+      $display("\talucontrol %b| aluA %d, aluB %d, aluResult %d, aluzero %b", ALUt.aluControl,ALUt.srcA,ALUt.srcB,ALUt.aluResult,ALUt.zero);
+      //  alusrcmux tests$display("\t\t alusrcmux %b| rd2 %d| sign %d| result %d ", alu_scr_muxt.ALUSrc, alu_scr_muxt.RD2,alu_scr_muxt.SignImm, alu_scr_muxt.SrcB);
       end
 
 
