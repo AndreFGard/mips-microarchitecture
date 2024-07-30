@@ -11,7 +11,7 @@ module ttB;
   	wire [INSTRSIZE:0] PCplus4w; 
   	wire [INSTRSIZE:0] PCw;
     
-  	reg [INSTRSIZE:0] SignImmw = 0;
+  	wire [INSTRSIZE:0] SignImmw;
     
   	pc_mux pc_multiplexertb(
       PCplus4w, 
@@ -49,7 +49,7 @@ module ttB;
   	wire [4:0] instr_25_21; 
   	wire [4:0] instr_20_16; 
   	wire [4:0] instr_15_11; 
-  	wire [15:0] instr_15_0; 
+  	wire signed [15:0] instr_15_0; 
   	wire [5:0] instr_5_0;
 
     assign instr_31_26 = Instrw[31:26];
@@ -139,6 +139,11 @@ module ttB;
       .WE(memwritewCU),
       .RD(ReadDataw)
     );
+  
+    Sign_Extend Sign_Extendt (
+      .instr(instr_15_0),
+      .SignImm(SignImmw)
+    );
 
  	// clock
     initial forever #5 clk = ~clk;
@@ -156,9 +161,21 @@ module ttB;
 	
   
  
-//   	initial forever begin
+  	initial forever begin
+      #5;
+      // print register file;
+      // $display("%b %b %b %b %b %b", register_filet.a1, register_filet.a2, register_filet.a3, register_filet.WD3, register_filet.RD1, register_filet.RD2);
+      // $display("%d", register_filet.registers[1]);
       
-//     end
+      // print alu;
+      // $display("%d %d %d", ALUt.srcA, ALUt.srcB, ALUt.aluResult);
+      
+      // print sign extend;
+      // $display("%b %b", Sign_Extendt.instr, Sign_Extendt.SignImm);
+      
+      // print data memory
+      // $display("%b %b %b", data_memoryt.A, data_memoryt.WD, data_memoryt.RD);
+    end
 
     initial begin
       #120 $finish;
