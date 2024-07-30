@@ -47,11 +47,11 @@ module instruction_memory(
       //  memoria[2] = 8'b00000000;  //addi
       //  memoria[3] = 8'b00001010;  //addi
       
-      // addi $t0, $zero, -3
+      // addi $t0, $zero, 10
       memoria[0] = 8'b00100000;  // addi
       memoria[1] = 8'b00000001;  // addi
-      memoria[2] = 8'b11111111;  // addi
-      memoria[3] = 8'b11111101;  // addi
+      memoria[2] = 8'b00000000;  // addi
+      memoria[3] = 8'b00001010;  // addi
 		
       // ADDI $t1, $v0, 20
       memoria[4] = 8'b00100000;  //addi
@@ -100,15 +100,15 @@ module instruction_memory(
       memoria[34] = 8'b00000000;  //sw
       memoria[35] = 8'b00000001;  //sw
 
-      // memoria[36] = 8'b00010000;  //beq
-      // memoria[37] = 8'b10100110;  //beq
-      // memoria[38] = 8'b00000000;  //beq
-      // memoria[39] = 8'b00000000;  //beq to the end of the program
+      memoria[36] = 8'b00010000;  //beq
+      memoria[37] = 8'b10100110;  //beq
+      memoria[38] = 8'b00000000;  //beq
+      memoria[39] = 8'b11111111;  //beq to this weird address
 
-      // memoria[40] = 8'b00010000;  //beq
-      // memoria[41] = 8'b00000000;  //beq
-      // memoria[42] = 8'b11111111;  //beq
-      // memoria[43] = 8'b11101100;  //beq
+      memoria[40] = 8'b00010000;  //beq
+      memoria[41] = 8'b00000000;  //beq
+      memoria[42] = 8'b11111111;  //beq
+      memoria[43] = 8'b11111010;  //beq
 
     end
 

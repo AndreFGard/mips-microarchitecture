@@ -148,16 +148,27 @@ module ttB;
  	// clock
     initial forever #5 clk = ~clk;
 
-//     initial forever begin
-//       #5 $display("PCw (curr): %d, plus4w %d, PCBranchw %d PCSrcw %d", PCw, PCplus4w, PCBranchw, PCSrcw);
-//       $display("Instrucao: %b", Instrw);
-//       //$display("\treg a1:%b %d reg a2:%b %d, a3 %b %d", instr_25_21, register_filet.registers[instr_25_21],instr_20_16, register_filet.registers[1]);
-//       $display("\t\tREG 1:%d |A3 %b| WE %b| WD %d| aluresult %d", register_filet.registers[5'b00001], writeregw,RegWriteCUw, resultw,aluResultw);
-//       //control unit tests
-//       //$display("memtoreg %d  memwrite %d branch %d alusrc %d regdst %d regwrite %d alucontrol %b", memtoregCUw, memwritewCU,branchCUw,alusrcCUw,regdstw,RegWriteCUw,alucontrolCUw);
-//       //alu tests
-//       $display("alucontrol %b| aluA %d, aluB %d, aluResult %d, aluzero %b", ALUt.aluControl,ALUt.srcA,ALUt.srcB,ALUt.aluResult,ALUt.zero);
-//       end
+    initial forever begin
+      #5 $display("\nPCw (curr): %d, plus4w %d, PCBranchw %d PCSrcw %d", PCw, PCplus4w, PCBranchw, PCSrcw);
+      //$display("Instrucao: %b", Instrw);
+      //$display("\treg a1:%b %d reg a2:%b %d, a3 %b %d", instr_25_21, register_filet.registers[instr_25_21],instr_20_16, register_filet.registers[1]);
+      //$display("\t\tREG 1:%d |A3 %b| WE %b| WD %d| aluresult %d", register_filet.registers[5'b00001], writeregw,RegWriteCUw, resultw,aluResultw);
+      //control unit tests
+      //$display("memtoreg %d  memwrite %d branch %d alusrc %d regdst %d regwrite %d alucontrol %b", memtoregCUw, memwritewCU,branchCUw,alusrcCUw,regdstw,RegWriteCUw,alucontrolCUw);
+      //alu tests
+      //$display("alucontrol %b| aluA %d, aluB %d, aluResult %d, aluzero %b", ALUt.aluControl,ALUt.srcA,ALUt.srcB,ALUt.aluResult,ALUt.zero);
+$display("\t$a0 %d, $a1 %d, $a2 %d, $a3 %d,\n\t$at %d, $t0 %d, $t1 %d, $t2 %d,\n\t$v0 %d, $v1 %d",
+         register_filet.registers[4],   // $a0
+         register_filet.registers[5],   // $a1
+         register_filet.registers[6],   // $a2
+         register_filet.registers[7],   // $a3
+         register_filet.registers[1],   // $at
+         register_filet.registers[10],  // $t0
+         register_filet.registers[11],  // $t1
+         register_filet.registers[12],  // $t2
+         register_filet.registers[2],   // $v0
+         register_filet.registers[3]);  // $v1
+      end
 	
   
   
@@ -194,7 +205,7 @@ module ttB;
     end
 
     initial begin
-      #120 $finish;
+      #2000 $finish;
     end
 
     endmodule
