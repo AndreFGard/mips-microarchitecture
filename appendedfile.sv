@@ -34,6 +34,7 @@ module data_memory (
       RD <= Mem[A];
   end
 endmodule;
+
 module instruction_memory(
   	input [31:0] A,        
     output reg [31:0] RD       
@@ -45,11 +46,13 @@ module instruction_memory(
       // memoria[1] = 8'b00000001;  //addi
       //  memoria[2] = 8'b00000000;  //addi
       //  memoria[3] = 8'b00001010;  //addi
+      
+      // addi $t0, $zero, 5
+      memoria[0] = 8'b00100000;  // addi
+      memoria[1] = 8'b00000001;  // addi
+      memoria[2] = 8'b11111111;  // addi
+      memoria[3] = 8'b11111101;  // addi
 
-      memoria[0] = 8'b00100000;  //addi
-      memoria[1] = 8'b00000001;  //addi
-       memoria[2] = 8'b10101011;  //addi
-       memoria[3] = 8'b11100110;  //addi
 
 
 
@@ -130,10 +133,10 @@ module mem_to_reg_mux(
 endmodule;
 module ALU(
   input [2:0] aluControl, 
-  input [31:0] srcA, 
-  input [31:0] srcB, 
+  input signed [31:0] srcA, 
+  input signed [31:0] srcB, 
   output zero, 
-  output [31:0] aluResult 
+  output signed [31:0] aluResult 
 );
 
   parameter ADD = 3'b010; 
@@ -263,14 +266,14 @@ module register_file(
   input [4:0] a1,        // endereço da leitura 1
   input [4:0] a2,        // endereço da leitura 2
   input [4:0] a3,        // endereço da escrita
-  input [31:0] WD3,      // dados para escrita
+  input signed [31:0] WD3,      // dados para escrita
   input WE3,             // habilitação para escrita
   input clk,             // sinal de clock
-  output [31:0] RD1,    // dados lidos 1
-  output [31:0] RD2     // dados lidos 2
+  output signed [31:0] RD1,    // dados lidos 1
+  output signed [31:0] RD2     // dados lidos 2
 );
 
-  reg [31:0] registers [0:31];  // array de registradores de 32 bits
+  reg signed [31:0] registers [0:31];  // array de registradores de 32 bits
 
   // Leitura dos registradores
   assign RD1 = (a1 == 0) ? 32'd0 : registers[a1];
@@ -313,18 +316,15 @@ module reg_dst_mux(
 
 endmodule;
 module Sign_Extend(
-  input [15:0] instr,
-  output reg [31:0] SignImm
+  input signed [15:0] instr,
+  output signed [31:0] SignImm
 );
   
-  always @* begin
-    if (instr[15] == 1'b0)
-      SignImm = {16'b0, instr}; 
-    else
-      SignImm = {16'b1111111111111111, instr};
-  end
+  assign SignImm = instr[15] ? {16'b1111111111111111, instr} : {16'b0, instr};
   
-endmodule;
+endmodule
+
+
 module pc(
   input [31:0] next_instr, 
   input clk, 
