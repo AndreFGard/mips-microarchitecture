@@ -70,7 +70,7 @@ module ttB;
       writeregw
     );
 
-    wire [31:0] resultw; //wire that comes from the ALU or the data memory //////////////ASSIGN ME PLS
+    wire signed [31:0] resultw; //wire that comes from the ALU or the data memory //////////////ASSIGN ME PLS
     wire RegWriteCUw;
     wire [31:0] RD1w; 
   	wire [31:0] RD2w;
@@ -102,7 +102,7 @@ module ttB;
     );
 
  	wire zerow;
-  	wire [31:0] aluResultw;
+  	wire signed [31:0] aluResultw;
   	ALU ALUt (
       .aluControl(alucontrolCUw), 
       .srcA(RD1w), 
@@ -160,12 +160,27 @@ module ttB;
 //       end
 	
   
- 
+  
+  
+  	// print array
+//     integer i;
+//     initial forever begin
+//        #5
+//        for (i = 0; i < 31; i = i + 1) begin
+//          $write("%d ", data_memoryt.Mem[i]); 
+//        end
+//        $display("");
+//       for (i = 0; i < 31; i = i + 1) begin
+//         $write("%d ", register_filet.registers[i]); 
+//        end
+//        $display("");
+// 	end
+  
+  
   	initial forever begin
       #5;
       // print register file;
       // $display("%b %b %b %b %b %b", register_filet.a1, register_filet.a2, register_filet.a3, register_filet.WD3, register_filet.RD1, register_filet.RD2);
-      // $display("%d", register_filet.registers[1]);
       
       // print alu;
       // $display("%d %d %d", ALUt.srcA, ALUt.srcB, ALUt.aluResult);
@@ -174,7 +189,8 @@ module ttB;
       // $display("%b %b", Sign_Extendt.instr, Sign_Extendt.SignImm);
       
       // print data memory
-      // $display("%b %b %b", data_memoryt.A, data_memoryt.WD, data_memoryt.RD);
+      // $display("%d %d %d", data_memoryt.A, data_memoryt.WD, data_memoryt.RD);
+      
     end
 
     initial begin
