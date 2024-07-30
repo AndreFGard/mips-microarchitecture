@@ -20,12 +20,12 @@ module pc_branch(
 endmodule;
 module data_memory (
   input clk,
-  input [31:0] A,
-  input [31:0] WD,
+  input signed [31:0] A,
+  input signed [31:0] WD,
   input WE,
-  output reg [31:0] RD
+  output reg signed [31:0] RD
 );
-  reg [31:0] Mem [31:0];
+  reg signed[31:0] Mem [31:0];
   
   always @ (posedge clk) begin
     if (WE)
@@ -52,49 +52,53 @@ module instruction_memory(
       memoria[1] = 8'b00000001;  // addi
       memoria[2] = 8'b11111111;  // addi
       memoria[3] = 8'b11111101;  // addi
+		
+      // ADDI $t1, $v0, 20
+      memoria[4] = 8'b00100000;  //addi
+      memoria[5] = 8'b00000010;  //addi
+      memoria[6] = 8'b00000000;  //addi
+      memoria[7] = 8'b00010100;  //addi
+	
+      // ADDI $t2, $v1, 50
+      memoria[8] = 8'b00100000;  //addi
+      memoria[9] = 8'b00000110;  //addi
+      memoria[10] = 8'b00000000;  //addi
+      memoria[11] = 8'b00110010;  //addi
+		
+      // SW $at, 1($zero)
+      memoria[12] = 8'b10101100;  //sw
+      memoria[13] = 8'b00000001;  //sw
+      memoria[14] = 8'b00000000;  //sw
+      memoria[15] = 8'b00000001;  //sw
+	
+      // SW $v0, 2($zero)
+      memoria[16] = 8'b10101100;  //sw
+      memoria[17] = 8'b00000010;  //sw
+      memoria[18] = 8'b00000000;  //sw
+      memoria[19] = 8'b00000010;  //sw
+	
+      // LW $v1, 1($zero)
+      memoria[20] = 8'b10001100;  //lw
+      memoria[21] = 8'b00000011;  //lw
+      memoria[22] = 8'b00000000;  //lw
+      memoria[23] = 8'b00000001;  //lw
 
+      // LW $a0, 2($zero)
+      memoria[24] = 8'b10001100;  //lw
+      memoria[25] = 8'b00000100;  //lw
+      memoria[26] = 8'b00000000;  //lw
+      memoria[27] = 8'b00000010;  //lw
 
+      // add $a1, $v1, $a0
+      memoria[28] = 8'b00000000;  //add
+      memoria[29] = 8'b00100010;  //add
+      memoria[30] = 8'b00110000;  //add
+      memoria[31] = 8'b00100000;  //add
 
-
-      // memoria[4] = 8'b00100000;  //addi
-      // memoria[5] = 8'b00000010;  //addi
-      // memoria[6] = 8'b00000000;  //addi
-      // memoria[7] = 8'b00010100;  //addi
-
-      // memoria[8] = 8'b00100000;  //addi
-      // memoria[9] = 8'b00000110;  //addi
-      // memoria[10] = 8'b00000000;  //addi
-      // memoria[11] = 8'b00110010;  //addi
-
-      // memoria[12] = 8'b10101100;  //sw
-      // memoria[13] = 8'b00000001;  //sw
-      // memoria[14] = 8'b00000000;  //sw
-      // memoria[15] = 8'b00000001;  //sw
-
-      // memoria[16] = 8'b10101100;  //sw
-      // memoria[17] = 8'b00000010;  //sw
-      // memoria[18] = 8'b00000000;  //sw
-      // memoria[19] = 8'b00000010;  //sw
-
-      // memoria[20] = 8'b10001100;  //lw
-      // memoria[21] = 8'b00000011;  //lw
-      // memoria[22] = 8'b00000000;  //lw
-      // memoria[23] = 8'b00000001;  //lw
-
-      // memoria[24] = 8'b10001100;  //lw
-      // memoria[25] = 8'b00000100;  //lw
-      // memoria[26] = 8'b00000000;  //lw
-      // memoria[27] = 8'b00000010;  //lw
-
-      // memoria[28] = 8'b00000000;  //add
-      // memoria[29] = 8'b01100100;  //add
-      // memoria[30] = 8'b00101000;  //add
-      // memoria[31] = 8'b00100000;  //add
-
-      // memoria[32] = 8'b10101100;  //sw
-      // memoria[33] = 8'b00000101;  //sw
-      // memoria[34] = 8'b00000000;  //sw
-      // memoria[35] = 8'b00000001;  //sw
+      memoria[32] = 8'b10101100;  //sw
+      memoria[33] = 8'b00000101;  //sw
+      memoria[34] = 8'b00000000;  //sw
+      memoria[35] = 8'b00000001;  //sw
 
       // memoria[36] = 8'b00010000;  //beq
       // memoria[37] = 8'b10100110;  //beq
@@ -105,10 +109,6 @@ module instruction_memory(
       // memoria[41] = 8'b00000000;  //beq
       // memoria[42] = 8'b11111111;  //beq
       // memoria[43] = 8'b11101100;  //beq
-
-
-
-
 
     end
 
