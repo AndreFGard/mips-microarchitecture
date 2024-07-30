@@ -2,14 +2,14 @@ module register_file(
   input [4:0] a1,        // endereço da leitura 1
   input [4:0] a2,        // endereço da leitura 2
   input [4:0] a3,        // endereço da escrita
-  input [31:0] WD3,      // dados para escrita
+  input signed [31:0] WD3,      // dados para escrita
   input WE3,             // habilitação para escrita
   input clk,             // sinal de clock
-  output [31:0] RD1,    // dados lidos 1
-  output [31:0] RD2     // dados lidos 2
+  output signed [31:0] RD1,    // dados lidos 1
+  output signed [31:0] RD2     // dados lidos 2
 );
 
-  reg [31:0] registers [0:31];  // array de registradores de 32 bits
+  reg signed [31:0] registers [0:31];  // array de registradores de 32 bits
 
   // Leitura dos registradores
   assign RD1 = (a1 == 0) ? 32'd0 : registers[a1];
