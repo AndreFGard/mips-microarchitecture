@@ -11,9 +11,9 @@ endmodule;
 module pc_branch(
   
   // juntou <<2 e pcbranch
-  input [4:0] SignImm,
-  input [4:0] PCplus4,
-  output [4:0] result
+  input [31:0] SignImm,
+  input [31:0] PCplus4,
+  output [31:0] result
 );
   
   assign result = PCplus4 + SignImm*4; 
@@ -35,41 +35,78 @@ module data_memory (
   end
 endmodule;
 module instruction_memory(
-  	input [4:0] A,        
+  	input [31:0] A,        
     output reg [31:0] RD       
 );
- 	  reg [7:0] memoria [31:0];  // Declaração da memória de instruções
+ 	  reg [7:0] memoria [64:0];  // Declaração da memória de instruções
 
     initial begin
-        memoria[0] = 8'b00100000;  // addi $a0, $zero, 10
-        memoria[1] = 8'b00000010;  // 00000010
-        memoria[2] = 8'b00000000;  // 00000000
-        memoria[3] = 8'b00001010;  // 00001010
-        
-        memoria[4] = 8'b00100000;  // addi $t0, $zero, 1
-        memoria[5] = 8'b00000100;  // 00000100
-        memoria[6] = 8'b00000000;  // 00000000
-        memoria[7] = 8'b00000001;  // 00000001
-        
-        memoria[8]  = 8'b00010001; // beq $t0, $a0, 3
-        memoria[9]  = 8'b00000100; // 00000100
-        memoria[10] = 8'b00000000; // 00000000
-        memoria[11] = 8'b00000011; // 00000011
-        
-        memoria[12] = 8'b00100001; // addi $t0, $t0, 1
-        memoria[13] = 8'b00001000; // 00001000
-        memoria[14] = 8'b00000000; // 00000000
-        memoria[15] = 8'b00000001; // 00000001
-        
-        memoria[16] = 8'b00001000; // j loop
-        memoria[17] = 8'b00000000; // 00000000
-        memoria[18] = 8'b00000000; // 00000000
-        memoria[19] = 8'b00000001; // 00000001
-        
-        memoria[20] = 8'b00000000; // nop
-        memoria[21] = 8'b00000000; // 00000000
-        memoria[22] = 8'b00000000; // 00000000
-        memoria[23] = 8'b00000000; // 00000000
+      // memoria[0] = 8'b00100000;  //addi
+      // memoria[1] = 8'b00000001;  //addi
+      //  memoria[2] = 8'b00000000;  //addi
+      //  memoria[3] = 8'b00001010;  //addi
+
+      memoria[0] = 8'b00100000;  //addi
+      memoria[1] = 8'b00000001;  //addi
+       memoria[2] = 8'b10101011;  //addi
+       memoria[3] = 8'b11100110;  //addi
+
+
+
+      // memoria[4] = 8'b00100000;  //addi
+      // memoria[5] = 8'b00000010;  //addi
+      // memoria[6] = 8'b00000000;  //addi
+      // memoria[7] = 8'b00010100;  //addi
+
+      // memoria[8] = 8'b00100000;  //addi
+      // memoria[9] = 8'b00000110;  //addi
+      // memoria[10] = 8'b00000000;  //addi
+      // memoria[11] = 8'b00110010;  //addi
+
+      // memoria[12] = 8'b10101100;  //sw
+      // memoria[13] = 8'b00000001;  //sw
+      // memoria[14] = 8'b00000000;  //sw
+      // memoria[15] = 8'b00000001;  //sw
+
+      // memoria[16] = 8'b10101100;  //sw
+      // memoria[17] = 8'b00000010;  //sw
+      // memoria[18] = 8'b00000000;  //sw
+      // memoria[19] = 8'b00000010;  //sw
+
+      // memoria[20] = 8'b10001100;  //lw
+      // memoria[21] = 8'b00000011;  //lw
+      // memoria[22] = 8'b00000000;  //lw
+      // memoria[23] = 8'b00000001;  //lw
+
+      // memoria[24] = 8'b10001100;  //lw
+      // memoria[25] = 8'b00000100;  //lw
+      // memoria[26] = 8'b00000000;  //lw
+      // memoria[27] = 8'b00000010;  //lw
+
+      // memoria[28] = 8'b00000000;  //add
+      // memoria[29] = 8'b01100100;  //add
+      // memoria[30] = 8'b00101000;  //add
+      // memoria[31] = 8'b00100000;  //add
+
+      // memoria[32] = 8'b10101100;  //sw
+      // memoria[33] = 8'b00000101;  //sw
+      // memoria[34] = 8'b00000000;  //sw
+      // memoria[35] = 8'b00000001;  //sw
+
+      // memoria[36] = 8'b00010000;  //beq
+      // memoria[37] = 8'b10100110;  //beq
+      // memoria[38] = 8'b00000000;  //beq
+      // memoria[39] = 8'b00000000;  //beq to the end of the program
+
+      // memoria[40] = 8'b00010000;  //beq
+      // memoria[41] = 8'b00000000;  //beq
+      // memoria[42] = 8'b11111111;  //beq
+      // memoria[43] = 8'b11101100;  //beq
+
+
+
+
+
     end
 
   always @(A) begin
@@ -222,43 +259,44 @@ module control_unit(
                             3'b000
                         ) : 3'b000;
 endmodule
-module register_file(a1, a2, a3, WD3, WE3, clk, RD1, RD2);
+module register_file(
+  input [4:0] a1,        // endereço da leitura 1
+  input [4:0] a2,        // endereço da leitura 2
+  input [4:0] a3,        // endereço da escrita
+  input [31:0] WD3,      // dados para escrita
+  input WE3,             // habilitação para escrita
+  input clk,             // sinal de clock
+  output [31:0] RD1,    // dados lidos 1
+  output [31:0] RD2     // dados lidos 2
+);
 
-  input [4:0] a1; // data source
-  input [4:0] a2; // data source
-  
-  input [4:0] a3; // write
-  input [31:0] WD3; // write data
-  
-  input WE3; // write enable 
-  input clk;
- 
-  output [31:0] RD1,RD2; // read data
- 
+  reg [31:0] registers [0:31];  // array de registradores de 32 bits
+
+  // Leitura dos registradores
+  assign RD1 = (a1 == 0) ? 32'd0 : registers[a1];
+  assign RD2 = (a2 == 0) ? 32'd0 : registers[a2];
+
+  // Inicialização dos registradores (para simulação)
   integer i;
-  reg [31:0] registers [0:31];
-  
-  assign RD1 = (a1==0) ? 32'd0 : registers[a1];
-  assign RD2 = (a2==0) ? 32'd0 : registers[a2];
-  
   initial begin
-    for(i=0; i<32; i=i+1) 
-     registers[i] <= 32'd0;
+    for (i = 0; i < 32; i = i + 1) 
+      registers[i] = 32'd0;
   end
-  
+
+  // Escrita nos registradores
   always @(posedge clk) begin
-    if (WE3) begin
-      registers[a3] <= (a3==0) ? 32'd0 : WD3;
+    if (WE3 && (a3 != 0)) begin
+      registers[a3] <= WD3;
     end
   end
- 
+
 endmodule
 
 module pc_src_mux (
   input PCSrc,
-  input [4:0] PCPlus4,
-  input [4:0] PCBranch,
-  output [4:0] Result
+  input [31:0] PCPlus4,
+  input [31:0] PCBranch,
+  output [31:0] Result
 );
 
  assign Result = PCSrc ? PCBranch : PCPlus4;
@@ -288,9 +326,9 @@ module Sign_Extend(
   
 endmodule;
 module pc(
-  input [4:0] next_instr, 
+  input [31:0] next_instr, 
   input clk, 
-  output reg [4:0] curr_instr 
+  output reg [31:0] curr_instr 
 );
   initial curr_instr = 0;
 
@@ -299,11 +337,12 @@ module pc(
   end
 
 endmodule
+
 module pc_mux (
-  input [4:0] plus4_instr, 
-  input [4:0] branch, 
+  input [31:0] plus4_instr, 
+  input [31:0] branch, 
   input use_branch, 
-  output [4:0] next_instr 
+  output [31:0] next_instr 
 );
 
   assign next_instr = (use_branch) ? branch : plus4_instr;
@@ -312,8 +351,8 @@ module pcplus4(
   input [INSTRSIZE:0]last_instr, 
   output [INSTRSIZE:0] next_instr
 );
-  parameter INSTRSIZE = 4;
+  parameter INSTRSIZE = 31;
   
-  assign next_instr = last_instr + INSTRSIZE;
+  assign next_instr = last_instr + 4;
 
 endmodule

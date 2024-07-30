@@ -64,15 +64,16 @@ module ttB;
 
     initial forever begin
       #5 $display("PCw (curr): %d, plus4w %d, PCBranchw %d PCSrcw %d", PCw, PCplus4w, PCBranchw, PCSrcw);
-      $display("%b", Instrw);
-      
+      $display("Instrucao: %b", Instrw);
+      //$display("\treg a1:%b %d reg a2:%b %d, a3 %b %d", instr_25_21, register_filet.registers[instr_25_21],instr_20_16, register_filet.registers[1]);
+      $display("\t\tREG 1:%d |A3 %b| WE %b", register_filet.registers[5'b00001], writeregw, RegWriteCUw);
       //control unit tests
       $display("memtoreg %d  memwrite %d branch %d alusrc %d regdst %d regwrite %d alucontrol %b", memtoregCUw, memwritewCU,branchCUw,alusrcCUw,regdstw,RegWriteCUw,alucontrolCUw);
       end
 
 
     initial begin
-      #70 $finish;
+      #120 $finish;
     end
 
     endmodule
