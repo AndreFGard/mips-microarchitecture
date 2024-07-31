@@ -175,18 +175,27 @@ module ttB;
   
   	// print array
     integer i;
-    initial forever begin
-       #5
-       for (i = 0; i < 31; i = i + 1) begin
-         $write("%d ", data_memoryt.Mem[i]); 
-       end
-       $display("");
-      for (i = 0; i < 31; i = i + 1) begin
-        $write("%d ", register_filet.registers[i]); 
-       end
-       $display("");
+  //   initial forever begin
+  //      #5
+  //      for (i = 0; i < 31; i = i + 1) begin
+  //        $write("%d ", data_memoryt.Mem[i]); 
+  //      end
+  //      $display("");
+  //     for (i = 0; i < 31; i = i + 1) begin
+  //       $write("%d ", register_filet.registers[i]); 
+  //      end
+  //      $display("");
    
-	end
+	// end
+
+  initial forever begin
+    #5;
+    for (i = 0; i<16; i = i +1) begin
+      if (register_filet.registers[i])
+        $write("%d: %d ",i, register_filet.registers[i]);
+    end
+    $display(" ");
+  end
 
 	initial forever begin
        #10
