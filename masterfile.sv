@@ -185,10 +185,19 @@ module ttB;
         $write("%d ", register_filet.registers[i]); 
        end
        $display("");
-      $display("------------%d----------", PCw);
    
 	end
-  
+
+	initial forever begin
+       #10
+      $display("%0d = %0d ?", register_filet.registers[1], register_filet.registers[3]);
+      if (PCw==32'd1060) begin
+        $display("Fim. ");
+        $finish;  
+      end
+      $display("PC : %0d", PCw);
+
+	end
   
   	initial forever begin
       #5;
