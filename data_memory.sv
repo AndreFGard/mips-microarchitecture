@@ -7,11 +7,10 @@ module data_memory (
 );
   reg signed[31:0] Mem [31:0];
   
-  always @ (posedge clk) begin
+  always @ (clk) begin
     if (WE)
       Mem[A] <= WD; 
     else
       RD <= Mem[A];
   end
 endmodule;
-
