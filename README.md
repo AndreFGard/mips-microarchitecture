@@ -1,4 +1,6 @@
 # mips microarchitecture
+[Versão em português 🇧🇷](README_portuguese.md)
+
 
 This project features an implementation of a single clock MIPS microarchitecture, as described in the book Digital Design and Computer Architecture. The instructions *add, addi, lw, sw, beq* and *j* were implemented, those were the only ones necessary to run our high level code, which can be found in **c_code.c**, and the assembly instructions it was translated to can be found in mips **instructions.asm**. Each of the modules described in the book can be found in it's own file, although they *might* be unupdated relative to appendedfile and master_master_file, which concentrate our current development versions.
 
