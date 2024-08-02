@@ -81,4 +81,4 @@ int main(){
 
 
 ## microarchitecture overview
-[circuit photo](https://image1.slideserve.com/2359649/single-cycle-mips1-l.jpg)
+![circuit photo](https://image1.slideserve.com/2359649/single-cycle-mips1-l.jpg)
