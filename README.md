@@ -52,3 +52,24 @@ The j instruction is quite complex, since it requires extra hardware that other 
 for example, a ``j 8``, which we used to jump to the instruction address 32,  would look be translated into:
 
 ``000010(opcode) 00000000000000000000001000 ``
+
+
+## High level code
+[reference_Code](reference_code.png)
+```c
+#include <stdio.h>
+int main(){
+    int current_value = 10;
+    int add_per_loop = 20;
+    int target = 50;
+    int loop_counter = 1;
+    do {
+	
+	printf("%d %d %d %d\n",current_value, add_per_loop, target, loop_counter);
+        current_value += add_per_loop;
+        loop_counter += 1;
+
+    } while(current_value != target);
+    
+    printf("%d %d %d %d\n",current_value, add_per_loop, target, loop_counter);
+}```
