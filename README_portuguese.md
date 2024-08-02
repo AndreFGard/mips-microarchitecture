@@ -57,7 +57,7 @@ Por exemplo, um `j 8`, que usamos para saltar para o endereço da instrução 32
 `000010(opcode) 00000000000000000000001000`
 
 ## High level code
-[reference_Code](reference_code.png)
+![reference_Code](reference_code.png)
 ```c
 #include <stdio.h>
 int main(){
