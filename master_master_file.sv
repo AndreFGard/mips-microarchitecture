@@ -87,47 +87,47 @@ module instruction_memory(
     memoria[2]  = 8'b00000000;  
     memoria[3]  = 8'b00001010;  
 
-    // addi $v0, $zero, 20 
-    memoria[4]  = 8'b001000_00;  
-    memoria[5]  = 8'b000_00010;  
-    memoria[6]  = 8'b00000000; 
-    memoria[7]  = 8'b00010100; 
-
-    // addi $v1, $zero, 50 
-    memoria[8]  = 8'b001000_00; 
-    memoria[9]  = 8'b000_00011; 
-    memoria[10] = 8'b00000000; 
-    memoria[11] = 8'b00110010; 
-
-    // addi $a0, $zero, 0 
-    memoria[12] = 8'b001000_00; 
-    memoria[13] = 8'b000_00100; 
-    memoria[14] = 8'b00000000;  
-    memoria[15] = 8'b0000000;
-
     // sw $at, 1($zero)
-    memoria[16] = 8'b101011_00;  
-    memoria[17] = 8'b000_00001;  
-    memoria[18] = 8'b00000000;  
-    memoria[19] = 8'b00000001;  
+    memoria[4] = 8'b101011_00;  
+    memoria[5] = 8'b000_00001;  
+    memoria[6] = 8'b00000000;  
+    memoria[7] = 8'b00000001;
+
+    // addi $v0, $zero, 20 
+    memoria[8]  = 8'b001000_00;  
+    memoria[9]  = 8'b000_00010;  
+    memoria[10]  = 8'b00000000; 
+    memoria[11]  = 8'b00010100; 
 
     // sw $v0, 2($zero)
-    memoria[20] = 8'b101011_00;  
-    memoria[21] = 8'b000_00010;  
-    memoria[22] = 8'b00000000;  
-    memoria[23] = 8'b00000010;  
+    memoria[12] = 8'b101011_00;  
+    memoria[13] = 8'b000_00010;  
+    memoria[14] = 8'b00000000;  
+    memoria[15] = 8'b00000010;  
+
+    // addi $v1, $zero, 50 
+    memoria[16]  = 8'b001000_00; 
+    memoria[17]  = 8'b000_00011; 
+    memoria[18] = 8'b00000000; 
+    memoria[19] = 8'b00110010; 
 
     // sw $v1, 3($zero)
-    memoria[24] = 8'b101011_00;  
-    memoria[25] = 8'b000_00011;  
-    memoria[26] = 8'b00000000;  
-    memoria[27] = 8'b00000011;  
+    memoria[20] = 8'b101011_00;  
+    memoria[21] = 8'b000_00011;  
+    memoria[22] = 8'b00000000;  
+    memoria[23] = 8'b00000011;  
 
+    // addi $a0, $zero, 0 
+    memoria[24] = 8'b001000_00; 
+    memoria[25] = 8'b000_00100; 
+    memoria[26] = 8'b00000000;  
+    memoria[27] = 8'b0000000;
+  
     // sw $a0, 4($zero)
     memoria[28] = 8'b101011_00;  
     memoria[29] = 8'b000_00100;  
     memoria[30] = 8'b00000000;  
-    memoria[31] = 8'b00000100;  
+    memoria[31] = 8'b00000100; 
 
     // lw $at,1($zero)
     memoria[32] = 8'b100011_00;  
