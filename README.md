@@ -77,4 +77,5 @@ int main(){
 
 ## microarchitecture overview
 ![circuit photo](https://image1.slideserve.com/2359649/single-cycle-mips1-l.jpg)
-![jump photo](jump_mipspng)
+## Jump
+![jump photo](jump_mips.png)
